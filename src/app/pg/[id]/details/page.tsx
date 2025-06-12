@@ -8,7 +8,7 @@ import { useSelector } from "react-redux";
 
 const LoanDetailsPage = () => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
-  const [captured, setCaptured] = useState(false);
+  // const [captured, setCaptured] = useState(false);
 
   const data = useSelector((state: RootState) => state.loan);
 
@@ -92,7 +92,7 @@ const LoanDetailsPage = () => {
       ctx.fillText(line, 10, 30 + i * 25);
     });
 
-    setCaptured(true);
+    // setCaptured(true);
 
     // Convert to data URL
     const image = canvas.toDataURL("image/png");
