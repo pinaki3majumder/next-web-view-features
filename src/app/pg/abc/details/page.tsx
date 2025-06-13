@@ -8,6 +8,7 @@ import { useSelector } from "react-redux";
 
 const LoanDetailsPage = () => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
+  const [canvasImageUrl, setCanvasImageUrl] = useState<string | null>(null);
   // const [captured, setCaptured] = useState(false);
 
   const data = useSelector((state: RootState) => state.loan);
@@ -49,6 +50,9 @@ const LoanDetailsPage = () => {
 
     // Set file and preview
     setSelectedFile(file);
+    console.log("file:", file);
+    console.log("URL.createObjectURL(file):", URL.createObjectURL(file));
+
     if (file.type.startsWith("image/")) {
       setPreviewUrl(URL.createObjectURL(file));
     }
@@ -71,6 +75,19 @@ const LoanDetailsPage = () => {
 
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
+
+    const drawButtonOnCanvas = (ctx: CanvasRenderingContext2D) => {
+      // Background
+      ctx.fillStyle = "#fde68a"; // amber-200 hex
+      ctx.fillRect(20, 100, 100, 40);
+
+      // Text
+      ctx.fillStyle = "#000";
+      ctx.font = "16px Arial";
+      ctx.fillText("BACK", 45, 125);
+    };
+
+    drawButtonOnCanvas(ctx);
 
     // Clear canvas
     ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -97,6 +114,11 @@ const LoanDetailsPage = () => {
     // Convert to data URL
     const image = canvas.toDataURL("image/png");
 
+    setCanvasImageUrl(image); // set to state to show below
+    console.log("Canvas Image Data URL:", image);
+
+    console.log("canvasRef-", canvasRef);
+
     // Create link to download
     const link = document.createElement("a");
     link.download = "screenshot.png";
@@ -107,7 +129,12 @@ const LoanDetailsPage = () => {
   return (
     <div>
       <div className="bg-violet-200 p-2" id="screenshot-target">
-        <button onClick={() => history.back()}>BACK</button>
+        <button
+          className="bg-amber-200 p-4 rounded-lg"
+          onClick={() => history.back()}
+        >
+          BACK
+        </button>
         <br />
         LoanDetailsPage
         <br />
@@ -168,6 +195,22 @@ const LoanDetailsPage = () => {
         <h3 className="text-lg font-semibold mt-4">Captured Canvas</h3>
         <canvas ref={canvasRef} className="border border-gray-400 mt-2" />
       </div>
+
+      <br />
+      <br />
+
+      {canvasImageUrl && (
+        <div className="mt-4">
+          <h3 className="text-lg font-semibold mb-2">
+            Captured canvas as Image:
+          </h3>
+          <img
+            src={canvasImageUrl}
+            alt="Canvas Screenshot"
+            className="border"
+          />
+        </div>
+      )}
     </div>
   );
 };
