@@ -39,22 +39,16 @@ const DetailsPage = () => {
       return; // Exit early if data is already in Redux store
     }
 
-    const segmentMap: { [key: string]: string } = {
-      1: "posts",
-      2: "comments",
-      3: "todos",
-      4: "photos",
-    };
-    const apiType = segmentMap[Number(lastsegment)] || "unknown";
+    const apiType = "posts";
 
     fetch(`https://jsonplaceholder.typicode.com/` + apiType)
       .then((response) => response.json())
       .then((json) => {
         console.log(lastsegment + " api fired--------------------", json);
 
+        setData(json);
         dispatch(add(json));
         setIsApiCalled("true");
-        setData(json);
         setLoading(false);
       });
   }, []);
@@ -80,9 +74,9 @@ const DetailsPage = () => {
       ) : (
         <>
           {data.map((item: Post | Comments | Todos | Photos) => {
-            if (lastsegment === "1" && "title" in item && "body" in item) {
+            if ("title" in item && "body" in item) {
               return (
-                <Link key={item?.id} href={`/pg/${lastsegment}/details`}>
+                <Link key={item?.id} href={`/pg/abc/details`}>
                   <Card key={item?.id} className="mb-4 bg-amber-200">
                     <CardHeader>
                       <CardTitle>{item?.title}</CardTitle>

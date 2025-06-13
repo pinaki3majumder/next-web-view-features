@@ -23,7 +23,7 @@ const Loans = () => {
       <b>Loan Types ::</b>
       <ul className="mt-10">
         <li>
-          <Link href="pg/1">
+          <Link href="/pg/abc">
             <Button variant="default" className="bg-amber-200 w-full mb-10">
               LAMF - posts
               <ChevronRight className="w-4 h-4 text-grey-600" />
