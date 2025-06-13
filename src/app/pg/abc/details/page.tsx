@@ -76,19 +76,6 @@ const LoanDetailsPage = () => {
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
-    const drawButtonOnCanvas = (ctx: CanvasRenderingContext2D) => {
-      // Background
-      ctx.fillStyle = "#fde68a"; // amber-200 hex
-      ctx.fillRect(20, 100, 100, 40);
-
-      // Text
-      ctx.fillStyle = "#000";
-      ctx.font = "16px Arial";
-      ctx.fillText("BACK", 45, 125);
-    };
-
-    drawButtonOnCanvas(ctx);
-
     // Clear canvas
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
@@ -161,6 +148,7 @@ const LoanDetailsPage = () => {
 
             {previewUrl && (
               <img
+                crossOrigin="anonymous"
                 src={previewUrl}
                 alt="Preview"
                 className="mt-2 max-w-full max-h-60 border rounded shadow"
