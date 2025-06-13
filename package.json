@@ -5,7 +5,8 @@
   "homepage": "https://pinaki3majumder.github.io/next-web-view-features",
   "scripts": {
     "dev": "next dev",
-    "build": "next build && next export",
+    "build": "next build",
+    "export": "next build && next export",
     "deploy": "npm run build && gh-pages -d out",
     "start": "next start",
     "lint": "next lint"
