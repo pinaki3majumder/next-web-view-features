@@ -6,6 +6,14 @@ import { useParams } from "next/navigation";
 import React, { useRef, useState } from "react";
 import { useSelector } from "react-redux";
 
+declare global {
+  interface Window {
+    AndroidShare?: {
+      shareText: (text: string) => void;
+    };
+  }
+}
+
 const LoanDetailsPage = () => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const [canvasImageUrl, setCanvasImageUrl] = useState<string | null>(null);
@@ -106,11 +114,33 @@ const LoanDetailsPage = () => {
 
     console.log("canvasRef-", canvasRef);
 
+    // window.AndroidShare.shareText('Shared from web app inside native!');
+
+    if (typeof window !== 'undefined' && window.AndroidShare?.shareText) {
+      window.AndroidShare.shareText('Shared from web app inside native!');
+    } else {
+      alert('Sharing not supported in this environment');
+    }
+
     // Create link to download
     const link = document.createElement("a");
     link.download = "screenshot.png";
     link.href = image;
     link.click();
+  };
+
+   const fileRPInputRef = useRef<HTMLInputElement>(null);
+
+  const handleRPButtonClick = () => {
+    fileRPInputRef.current?.click();
+  };
+
+  const handleRPFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      console.log('Selected file:', file.name);
+      // handle upload here
+    }
   };
 
   return (
@@ -129,6 +159,17 @@ const LoanDetailsPage = () => {
         <br />
         Title: {(data?.value as Post[])[0]?.title || "No Title"}
         <br />
+
+        <div className="p-2 bg-amber-200">
+          <button onClick={handleRPButtonClick}>Upload File</button>
+          <input
+            type="file"
+            ref={fileRPInputRef}
+            onChange={handleRPFileChange}
+            style={{ display: 'none' }}
+          />
+        </div>
+
         <br />
         <input
           type="file"
