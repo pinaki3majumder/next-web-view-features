@@ -9,7 +9,8 @@ import { useSelector } from "react-redux";
 declare global {
   interface Window {
     AndroidShare?: {
-      shareText: (text: string) => void;
+      // shareText: (text: string) => void;
+      shareBase64Image: (text: string) => void;
     };
   }
 }
@@ -110,14 +111,15 @@ const LoanDetailsPage = () => {
     const image = canvas.toDataURL("image/png");
 
     setCanvasImageUrl(image); // set to state to show below
-    console.log("Canvas Image Data URL:", image);
+    console.log("RP Canvas Image Data URL:", image);
 
     console.log("canvasRef-", canvasRef);
 
     // window.AndroidShare.shareText('Shared from web app inside native!');
 
-    if (typeof window !== 'undefined' && window.AndroidShare?.shareText) {
-      window.AndroidShare.shareText('Shared from web app inside native!');
+    if (typeof window !== 'undefined' && window.AndroidShare?.shareBase64Image) {
+      // window.AndroidShare.shareText('Shared from web app inside native!');
+      window.AndroidShare.shareBase64Image(image);
     } else {
       alert('Sharing not supported in this environment');
     }
