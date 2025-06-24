@@ -55,6 +55,18 @@ const Loans = () => {
           </Link>
         </li>
       </ul>
+
+      <br />
+      <br />
+      <Link href="/pg/ck">
+        <Button
+          variant="default"
+          className="bg-green-600 w-full mb-10 text-black"
+        >
+          GO TO CUSTOM KEYBOARD PAGE
+          <ChevronRight className="w-4 h-4 text-grey-600" />
+        </Button>
+      </Link>
     </>
   );
 };
